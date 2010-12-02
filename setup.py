@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """TODO"""
 
 from setuptools import setup
@@ -16,8 +17,8 @@ setup(
     zip_safe=False,
     platforms='any',
     install_requires=[
-        'Flask',
-        'virtualenv'
+        'Flask>=0.6',
+        'virtualenv>=1.5.1'
     ],
     test_suite='test_virtualenv',
     classifiers=[

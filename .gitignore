@@ -1,3 +1,4 @@
 *.pyc
 .DS_Store
 Flask_Virtualenv.egg-info/
+examples/.myappenv/
