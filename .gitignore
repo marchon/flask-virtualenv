@@ -1,4 +1,3 @@
 *.pyc
 .DS_Store
-## Ignore virtual environment
-testenv/
+Flask_Virtualenv.egg-info/

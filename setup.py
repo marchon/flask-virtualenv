@@ -1,15 +1,11 @@
-"""
-Flask-Dozer
--------------
+"""TODO"""
 
-"""
 from setuptools import setup
-
 
 setup(
     name='Flask-Virtualenv',
     version='0.1',
-    url='http://imlucas.com/',
+    url='http://imlucas.com',
     license='BSD',
     author='Lucas Hrabovsky',
     author_email='hrabovsky.lucas@gmail.com',
@@ -23,6 +19,7 @@ setup(
         'Flask',
         'virtualenv'
     ],
+    test_suite='test_virtualenv',
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
