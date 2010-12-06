@@ -12,6 +12,7 @@ Flask-Script
 
 
 def _local(cmd, cwd=os.getcwd()):
+    """Simple helper for executing shell."""
     print "Execute: `%s` from `%s`" % (cmd, cwd)
     p = subprocess.Popen(cmd, shell=True, cwd=cwd, stderr=subprocess.STDOUT)
     if (p.wait() != 0):
@@ -19,6 +20,8 @@ def _local(cmd, cwd=os.getcwd()):
 
 
 def _ensure_requirements_file():
+    """Make sure we have a requirements.txt file in our project.  If not,
+    make one with the contents of DEFAULT_REQUIREMENTS"""
     if not os.path.exists('requirements.text'):
         fp = open('requirements.txt', 'w')
         fp.write(DEFAULT_REQUIREMENTS)
