@@ -1,11 +1,13 @@
 #!/usr/bin/env python
-"""TODO"""
+"""
+https://github.com/imlucas/flask-virtualenv
+"""
 
 from setuptools import setup
 
 setup(
     name='Flask-Virtualenv',
-    version='0.1',
+    version='0.1.1',
     url='http://imlucas.com',
     license='BSD',
     author='Lucas Hrabovsky',
@@ -20,12 +22,13 @@ setup(
         'Flask>=0.6',
         'virtualenv>=1.5.1'
     ],
-    test_suite='test_virtualenv',
+    test_suite='nose.collector',
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
+        'License :: OSI Approved :: {{ license }} License',
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
