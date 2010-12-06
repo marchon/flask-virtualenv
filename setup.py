@@ -19,8 +19,8 @@ setup(
     zip_safe=False,
     platforms='any',
     install_requires=[
-        'Flask>=0.6',
-        'virtualenv>=1.5.1'
+        'Flask',
+        #'virtualenv>=1.5.1'
     ],
     test_suite='nose.collector',
     classifiers=[
