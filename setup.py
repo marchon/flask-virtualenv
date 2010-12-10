@@ -20,7 +20,7 @@ setup(
     platforms='any',
     install_requires=[
         'Flask',
-        #'virtualenv>=1.5.1'
+        'virtualenv>=1.5.1'
     ],
     test_suite='nose.collector',
     classifiers=[
