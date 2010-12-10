@@ -9,7 +9,7 @@ DEFAULT_REQUIREMENTS = """### Required Packages ###
 Flask
 Flask-Script
 # Flask-Virtualenv
-git+https://github.com/imlucas/flask-virtualenv.git#egg=Flask-Virtualenv
+-e git+https://github.com/imlucas/flask-virtualenv.git#egg=Flask-Virtualenv
 """
 
 
