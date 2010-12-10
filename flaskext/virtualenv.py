@@ -54,7 +54,7 @@ def install_commands(manager):
         _ensure_requirements_file()
 
         if not os.path.exists('_env_name'):
-            _local("virtualenv --no-site-packages --distribute --prompt=%s %s"
+            _local("virtualenv --no-site-packages --distribute --prompt=%s> %s"
                 % (_app_name, _env_name))
 
         if not os.path.exists('./%s/bin/pip' % _env_name):
@@ -70,7 +70,6 @@ def install_commands(manager):
                 fp.write('## Ignore virtual environment\n%s/\n' % (_env_name))
                 print "Added %s/ to your .gitignore" % _env_name
             fp.close()
-
         activatevirtualenv()
 
     @manager.command
@@ -81,5 +80,5 @@ def install_commands(manager):
     @manager.command
     def activatevirtualenv():
         """Activate this app's virtual env."""
-        ac = 'sh -c "source %s"' % './%s/bin/activate' % _env_name
-        _local(ac)
+        print 'Run: source %s' % './%s/bin/activate' % _env_name
+        
