@@ -3,6 +3,10 @@ from __future__ import absolute_import
 import os
 import subprocess
 
+from flaskext import script
+import string
+
+
 __all__ = ['install_commands']
 
 DEFAULT_REQUIREMENTS = """### Required Packages ###
@@ -30,55 +34,66 @@ def _ensure_requirements_file():
         fp.close()
         print 'Created default requirements file.'
 
+class VirtualenvCommand(script.Command):
+    """Easily manage this app's virtualenv."""
+    def __init__(self, manager=None):
+        self._env_name = "env"
+        self._app_name = "app" if not manager else manager.app.logger_name
 
-def install_commands(manager):
+    def get_options(self):
+        return [
+            script.Option(dest='action', default='create', nargs=1,
+                help="./manage.py env (create|reqs|buildreqs|destroy|activate)")
+        ]
 
-    _app_name = manager.app.logger_name
-    _env_name = "env"
+    def run(self, action):
+        a = action[0]
+        if hasattr(self, a):
+            return getattr(self, a)()
+        else:
+            print "Unknown action %s" % a
+    
+    def create(self):
+        """Create new virtual environment and install all required packages.
 
-    @manager.command
-    def virtualenvrequirements():
-        """Print required packages and versions"""
+        If a .gitignore is present, an entry will be added so the env in ignored.
+        """
         _ensure_requirements_file()
-        _local('cat requirements.txt')
-
-    @manager.command
-    def createvirtualenvrequirements():
-        """Generate new requirements file"""
-        _ensure_requirements_file()
-        _local('./%s/bin/pip freeze > requirements.txt' % _env_name)
-
-    @manager.command
-    def createvirtualenv():
-        """Create new virtual environment and install all required packages"""
-        _ensure_requirements_file()
-
         if not os.path.exists('_env_name'):
             _local('virtualenv --no-site-packages --distribute --prompt="%s>" %s'
-                % (_app_name, _env_name))
+                % (self._app_name, self._env_name))
 
-        if not os.path.exists('./%s/bin/pip' % _env_name):
-            _local('./%s/bin/easy_install pip' % (_env_name))
+        if not os.path.exists('./%s/bin/pip' % self._env_name):
+            _local('./%s/bin/easy_install pip' % (self._env_name))
 
-        _local('./%s/bin/pip install -r requirements.txt' % _env_name)
+        _local('./%s/bin/pip install -r requirements.txt' % self._env_name)
 
         # Add env to .gitignore
         if os.path.exists('.gitignore'):
             fp = open('.gitignore', 'a+')
             contents = fp.read()
             if not _env_name in contents:
-                fp.write('## Ignore virtual environment\n%s/\n' % (_env_name))
-                print 'Added %s/ to your .gitignore' % _env_name
+                fp.write('## Ignore virtual environment\n%s/\n' % (self._env_name))
+                print 'Added %s/ to your .gitignore' % self._env_name
             fp.close()
-        activatevirtualenv()
+        self.activate()
+    
+    def reqs(self):
+        """Print required packages and versions"""
+        _ensure_requirements_file()
+        _local('cat requirements.txt')
 
-    @manager.command
-    def destroyvirtualenv():
-        """Clear the current virtual environment."""
-        _local('virtualenv --clear %s')
+    def buildsreqs(self):
+        """Generate new requirements file"""
+        _ensure_requirements_file()
+        _local('./%s/bin/pip freeze > requirements.txt' % self._env_name)
+    
+    def activate(self):
+        print 'Run: source %s' % './%s/bin/activate' % self._env_name
+    
+    def destroy(self):
+        _local('rm -rf %s' % self._env_name)
+    
 
-    @manager.command
-    def activatevirtualenv():
-        """Activate this app's virtual env."""
-        print 'Run: source %s' % './%s/bin/activate' % _env_name
-        
+def install_commands(manager):
+    manager.add_command('env', VirtualenvCommand(manager))
